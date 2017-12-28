@@ -61,13 +61,15 @@ public class CategoryServiceImpl implements ICategoryService {
             return ServerResponse.createByErrorMessage("查询参数有误");
         }
         List<Category> categories = mapper.selectCategoryChildrenByParentId(categoryId);
+
         if(CollectionUtils.isEmpty(categories)){
             logger.info("未找到子节点");
         }
         return ServerResponse.createBySuccess(categories);
     }
 
-    public ServerResponse getChildrenAndDeepParallelCategory(Integer categoryId){
+
+    public ServerResponse<List<Integer>> getChildrenAndDeepParallelCategory(Integer categoryId){
         Set<Category> categories = Sets.newHashSet();
         findChildCategory(categories,categoryId);
         List<Integer> categoryIdList = Lists.newArrayList();
